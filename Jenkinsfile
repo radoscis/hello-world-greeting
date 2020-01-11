@@ -5,7 +5,6 @@ node('docker') {
     stage('Build & Unit test'){
         sh 'mvn clean verify -DskipITs=true';
         junit '**/target/surefire-reports/TEST-*.xml'
-        sh 'sleep 10000'
         archiveArtifacts '**/target/*.war'
     }
     stage('Static Code Analysis'){
