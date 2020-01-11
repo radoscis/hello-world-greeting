@@ -9,8 +9,8 @@ archive 'target/*.jar'
 }
 stage('Static Code Analysis'){
 sh 'mvn clean verify sonar:sonar
--Dsonar.projectName=example-project
--Dsonar.projectKey=example-project
+-Dsonar.projectName=jenkinsproject
+-Dsonar.projectKey=jenkinsproject
 -Dsonar.projectVersion=$BUILD_NUMBER';
 }
 stage ('Integration Test'){
