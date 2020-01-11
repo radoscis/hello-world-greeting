@@ -15,7 +15,7 @@ node('docker') {
     stage ('Integration Test'){
         sh 'mvn clean verify -Dsurefire.skip=true'
         junit '**/target/failsafe-reports/TEST-*.xml'
-        archive 'target/*.jar'
+        archiveArtifacts 'target/*.jar', fingerprint: true
         sh 'sleep 10000'
     }
     stage ('Publish'){
@@ -25,11 +25,10 @@ node('docker') {
         {
         "pattern": "target/hello-0.0.1.war",
         "target": "example-project/${BUILD_NUMBER}/",
-        "props": "Integration-Tested=Yes;Performance-
-        Tested=No"
+        "props": "Integration-Tested=Yes;Performance-Tested=No"
         }
         ]
         }"""
-    server.upload(uploadSpec)
+        server.upload(uploadSpec)
     }
 }
