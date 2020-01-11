@@ -11,7 +11,9 @@ stage('Build and Unit Test') {
 }
 
 stage('Static Code Analysis') {
-    sh 'mvn clean verify sonar:sonar -Dsonar.projectName=jenkinsproject -Dsonar.projectKey=jenkinsproject 
+    sh 'mvn clean verify sonar:sonar 
+    -Dsonar.projectName=jenkinsproject 
+    -Dsonar.projectKey=jenkinsproject 
     -Dsonar.projectVersion=$BUILD_NUMBER';
 }
 
