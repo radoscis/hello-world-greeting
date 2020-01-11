@@ -16,7 +16,6 @@ node('docker') {
         sh 'mvn clean verify -Dsurefire.skip=true'
         junit '**/target/failsafe-reports/TEST-*.xml'
         archiveArtifacts 'target/*.jar', fingerprint: true
-        sh 'sleep 10000'
     }
     stage ('Publish'){
         def server = Artifactory.server 'artifactory-local'
