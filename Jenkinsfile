@@ -4,7 +4,7 @@ stage('Pool') {
     scm checkout
 }
 
-stage('Build and Unit Test) {
+stage('Build and Unit Test') {
     sh 'mvn clean verify -DskipITs=true';
     junit '**/target/surefire-reports/TEST-*.xml'
     archive 'target/*.jar'
