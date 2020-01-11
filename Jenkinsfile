@@ -15,7 +15,7 @@ node('docker') {
     stage ('Integration Test'){
         sh 'mvn clean verify -Dsurefire.skip=true'
         junit '**/target/failsafe-reports/TEST-*.xml'
-        archiveArtifacts 'target/*.jar', fingerprint: true
+        archiveArtifacts 'target/*.jar'
     }
     stage ('Publish'){
         def server = Artifactory.server 'artifactory-local'
