@@ -6,7 +6,7 @@ node('docker') {
         sh 'mvn clean verify -DskipITs=true';
         junit '**/target/surefire-reports/TEST-*.xml'
         sh 'sleep 10000'
-        archiveArtifacts '**/target/*.jar'
+        archiveArtifacts '**/target/*.war'
     }
     stage('Static Code Analysis'){
         sh '''
@@ -16,7 +16,7 @@ node('docker') {
     stage ('Integration Test'){
         sh 'mvn clean verify -Dsurefire.skip=true'
         junit '**/target/failsafe-reports/TEST-*.xml'
-        archiveArtifacts '**/target/*.jar'
+        archiveArtifacts '**/target/*.war'
     }
     stage ('Publish'){
         def server = Artifactory.server 'artifactory-local'
