@@ -34,4 +34,32 @@ node('docker') {
         }"""
         server.upload(uploadSpec)
     }
+    stash includes: 'target/hello-0.0.1.war, src/pt/Hello_World_Test_Plan.jmx', name: binary
+}
+
+node('docker_pt') {
+    stage ('Start Tomcat'){
+        sh '''cd /home/jenkins/tomcat/bin
+        ./startup.sh''';
+    }
+    stage ('Deploy '){
+        unstash 'binary'
+        sh 'cp target/hello-0.0.1.war /home/jenkins/tomcat/webapps/';
+    }
+    stage ('Performance Testing'){
+        sh '''cd /opt/jmeter/bin/
+        ./jmeter.sh -n -t $WORKSPACE/src/pt/Hello_World_Test_Plan.jmx -l
+        $WORKSPACE/test_report.jtl''';
+        //step([$class: 'ArtifactArchiver', artifacts: '**/*.jtl'])
+        archiveArtifacts '**/*.jtl'
+    }
+    stage ('Promote build in Artifactory'){
+        withCredentials([usernameColonPassword(credentialsId:
+        'artifactory-admin', variable: 'credentials')]) {
+            sh 'curl -u${credentials} -X PUT
+            "http://192.168.1.25:80/artifactory/api/storage/example-project/
+            ${BUILD_NUMBER}/hello-0.0.1.war?properties=Performance-
+            Tested=Yes"';
+        }
+    }
 }
