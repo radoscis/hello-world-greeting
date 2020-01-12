@@ -59,8 +59,7 @@ node('docker_pt') {
         'artifactory-admin', variable: 'credentials')]) {
             sh '''
             curl -u${credentials} -X PUT \
-            "http://192.168.1.25:80/artifactory/api/storage/example-project/ \
-            ${BUILD_NUMBER}/hello-0.0.1.war?properties=Performance-Tested=Yes"
+            "http://192.168.1.25:80/artifactory/api/storage/example-project/${BUILD_NUMBER}/hello-0.0.1.war?properties=Performance-Tested=Yes"
             '''
         }
     }
