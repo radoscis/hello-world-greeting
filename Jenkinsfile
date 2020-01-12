@@ -9,10 +9,10 @@ node('docker') {
     }
     stage('Static Code Analysis'){
         sh '''
-            mvn clean verify sonar:sonar 
-            -Dsonar.projectName=jenkinsproject 
-            -Dsonar.projectKey=jenkinsproject 
-            -Dsonar.host.url=http://192.168.1.25:9000 
+            mvn clean verify sonar:sonar \
+            -Dsonar.projectName=jenkinsproject \
+            -Dsonar.projectKey=jenkinsproject \
+            -Dsonar.host.url=http://192.168.1.25:9000 \
             -Dsonar.projectVersion=$BUILD_NUMBER
             '''
     }
